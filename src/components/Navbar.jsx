@@ -1,12 +1,23 @@
-
+'use client'
 import Image from "next/image";
 import NavLink from "./NavLink";
-import Profile from '@/assets/user.png'
+
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import Profile from "./Profile";
+import { is } from "date-fns/locale";
+import { HashLoader } from "react-spinners";
 
 
 const Navbar = () => {
   
+    const { 
+        data: session, 
+        isPending, 
+       
+    } = authClient.useSession() 
+  const user = session?.user
+  console.log(user);
     return (
       <div className=" container mx-auto navbar bg-base-100 shadow-sm mt-10">
   <div className="navbar-start">
@@ -17,7 +28,7 @@ const Navbar = () => {
       <ul
         tabIndex="-1"
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-      <li><NavLink href='/' className={"font-semibold text-red-500"}>Home</NavLink></li>
+      <li><NavLink href='/' className={"font-semibold text-red-500 "}>Home</NavLink></li>
       <li><NavLink href='/about'  className={"font-semibold "}>About</NavLink></li>
       <li><NavLink href='/carrer'  className={"font-semibold"}>Carrer</NavLink></li>
       </ul>
@@ -26,14 +37,15 @@ const Navbar = () => {
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-          <li><NavLink href='/'  className={"font-semibold text-md text-red-400"}>Home</NavLink></li>
-      <li><NavLink href='/about'  className={"font-semibold"}>About</NavLink></li>
-      <li><NavLink href='/carrer'  className={"font-semibold"}>Carrer</NavLink></li>
+          <li><NavLink href='/'  className={"font-semibold  text-red-400 text-[20px]"}>Home</NavLink></li>
+      <li><NavLink href='/about'  className={"font-semibold text-[20px]"}>About</NavLink></li>
+      <li><NavLink href='/carrer'  className={"font-semibold text-[20px]"}>Carrer</NavLink></li>
     </ul>
   </div>
   <div className="navbar-end gap-2">
-    <Image src={Profile} width={41} height={41}  alt="user image"></Image>
-    <Link href='/signup' className="btn">Login</Link>
+   {
+  isPending?  <HashLoader size={20}></HashLoader>: user?  <Profile user={user}></Profile> :<Link href='/login' className="btn">login</Link> 
+   }
   </div>
 </div> 
     );

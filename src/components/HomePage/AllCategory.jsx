@@ -7,7 +7,7 @@ const AllCategory = ({allCategory,activeId}) => {
   return (
       <div className="col-span-3">
       <h2 className="font-semibold text-xl mb-2">All Categoray</h2>
-      <ul className="hidden md:flex flex-col justify-items-start gap-4">
+      <ul className="hidden md:flex flex-col justify-items-start gap-4 shadow p-2">
         {
           allCategory.map(category=><li key={category.category_id}
           className={`${activeId===category.category_id && 'bg-gray-200 p-2'}`}
